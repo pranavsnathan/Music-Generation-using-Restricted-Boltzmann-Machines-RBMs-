@@ -1,0 +1,385 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package userinterface.AdvisorRole;
+import Business.Employee.Employee;
+import Business.Alumni.Alumni;
+import Business.Enterprise.Enterprise;
+import Business.GradStudent.GradStudent;
+
+import Business.GradStudent.GradStudentDirectory;
+import Business.Newbie.Newbie;
+import Business.Newbie.NewbieDetailsDirectory;
+import Business.Organization.AlumniOrganization;
+import Business.Organization.Organization;
+//import Business.Newbie.NewbieDetailsDirectory;
+import javax.swing.table.DefaultTableModel;
+import java.awt.CardLayout;
+import java.awt.geom.Area;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.data.category.DefaultCategoryDataset;
+import Business.Organization.AmbassadorOrganization;
+import Business.Organization.GradStudentOrganization;
+import Business.Organization.NewbieOrganization;
+import static Business.Organization.Organization.Type.Alumni;
+import Business.WorkQueue.LabTestWorkRequest;
+import java.util.ArrayList;
+
+import javax.mail.Message;
+import javax.mail.Multipart;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+
+/**
+ *
+ * @author Hi
+ */
+public class ListOfStudentsJPanel extends javax.swing.JPanel {
+    
+     private Enterprise enterprise;
+    private Organization org;
+
+    /**
+     * Creates new form ListOfStudentsJPanel
+     */
+    public ListOfStudentsJPanel(Enterprise enterprise, Organization organization) {
+        initComponents();
+          this.enterprise = enterprise;
+        this.org = organization;
+        
+         populateGradTbl();
+         populateGradTb2();
+    }
+    
+    private void populateGradTbl() {
+
+        Organization org = null;
+        for (Organization organization : enterprise.getOrganizationDirectory().getOrganizationList()) {
+            if (organization instanceof GradStudentOrganization) {
+                org = organization;
+                DefaultTableModel dt1 = (DefaultTableModel) gradstudenttable1.getModel();
+                dt1.setRowCount(0);
+                //org=(GradStudentOrganization)organization;
+                for (GradStudent gs : org.getGsd().getGradStudentList()) {
+                    Object row[] = new Object[10];
+                    row[0] = gs;
+                    row[1] = gs.getLName();
+                    row[2] = gs.getCourse();
+                    row[3] = gs.getCurrentSem();
+                    row[4] = gs.getCoursetaken1();
+                    row[5] = gs.getCoursetaken2();
+                    row[6] = gs.getEthinicity();
+                    row[7] = gs.getEmail();
+                    row[8] = gs.getPlace();
+                    dt1.addRow(row);
+                }
+            }
+
+        }
+    }
+     private void searchPlaceActionPerformed(java.awt.event.ActionEvent evt) {                                            
+        // TODO add your handling code here:
+       
+    }                                           
+
+    private void populateGradTb2() {
+
+        Organization org = null;
+        for (Organization organization : enterprise.getOrganizationDirectory().getOrganizationList()) {
+            if (organization instanceof AlumniOrganization) {
+                org = organization;
+                DefaultTableModel dt1 = (DefaultTableModel) Aluminitable.getModel();
+                dt1.setRowCount(0);
+                //org=(GradStudentOrganization)organization;
+                for (Alumni al : org.getAl().getAlumniList()) {
+                    Object row[] = new Object[6];
+                    row[0] = al;
+                    row[1] = al.getLastName();
+                    row[2] = al.getYearOfPassing();
+                    row[3] = al.getEmployed();
+                    row[4] = al.getCompanyame();
+                    row[5] = al.getTechnologyUsed();
+                    
+                    dt1.addRow(row);
+                }
+            }
+
+        }
+    }
+
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        Aluminitable = new javax.swing.JTable();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        gradstudenttable1 = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
+        search = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        searchbycompany = new javax.swing.JButton();
+        companysearch = new javax.swing.JTextField();
+        employmentchart = new javax.swing.JButton();
+        sendGradStudentBtn = new javax.swing.JButton();
+
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setText("Graduate Student Details");
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 20, 230, 40));
+
+        Aluminitable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "First name", "Last Name", "Year Of Passing", "Employment Status", "Company name", "Technology Used"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, true, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(Aluminitable);
+
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 920, 140));
+
+        gradstudenttable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "First name", "Last Name", "Course", "Current sem", "Courses taken 1", "Courses taken 2", "Ethinicity", "Email Address", "Place"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, true, false, false, false, false, false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(gradstudenttable1);
+
+        add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 920, 140));
+
+        jLabel2.setText("Alumini Students Table");
+        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 250, 170, -1));
+
+        search.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchActionPerformed(evt);
+            }
+        });
+        add(search, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 470, 140, -1));
+
+        jButton1.setText("Search by Technology:");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 470, 140, -1));
+
+        searchbycompany.setText("Search by Company:");
+        searchbycompany.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchbycompanyActionPerformed(evt);
+            }
+        });
+        add(searchbycompany, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 470, 160, -1));
+        add(companysearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 470, 150, -1));
+
+        employmentchart.setText("employment analysis of alumni Students ");
+        employmentchart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                employmentchartActionPerformed(evt);
+            }
+        });
+        add(employmentchart, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 270, 230, -1));
+
+        sendGradStudentBtn.setText("Send To Grad Student");
+        sendGradStudentBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sendGradStudentBtnActionPerformed(evt);
+            }
+        });
+        add(sendGradStudentBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 470, -1, -1));
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        
+         String place = search.getText();
+         Organization org = null;
+        for (Organization organization : enterprise.getOrganizationDirectory().getOrganizationList()) {
+            if (organization instanceof AlumniOrganization) {
+                org = organization;
+                DefaultTableModel dt1 = (DefaultTableModel) Aluminitable.getModel();
+                dt1.setRowCount(0);
+                //org=(GradStudentOrganization)organization;
+               for (Alumni al : org.getAl().getAlumniList()){
+                    if(al.getTechnologyUsed().equalsIgnoreCase(place)){
+                         //Object row[] = new Object[10];
+                  Object row[] = new Object[6];
+                    row[0] = al;
+                    row[1] = al.getLastName();
+                    row[2] = al.getYearOfPassing();
+                    row[3] = al.getEmployed();
+                    row[4] = al.getCompanyame();
+                    row[5] = al.getTechnologyUsed();
+                    
+                    dt1.addRow(row);
+                        
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchActionPerformed
+
+    private void searchbycompanyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchbycompanyActionPerformed
+        // TODO add your handling code here:
+        String place = companysearch.getText();
+         Organization org = null;
+        for (Organization organization : enterprise.getOrganizationDirectory().getOrganizationList()) {
+            if (organization instanceof AlumniOrganization) {
+                org = organization;
+                DefaultTableModel dt1 = (DefaultTableModel) Aluminitable.getModel();
+                dt1.setRowCount(0);
+                //org=(GradStudentOrganization)organization;
+               for (Alumni al : org.getAl().getAlumniList()){
+                    if(al.getCompanyame().equalsIgnoreCase(place)){
+                         //Object row[] = new Object[10];
+                  Object row[] = new Object[6];
+                    row[0] = al;
+                    row[1] = al.getLastName();
+                    row[2] = al.getYearOfPassing();
+                    row[3] = al.getEmployed();
+                    row[4] = al.getCompanyame();
+                    row[5] = al.getTechnologyUsed();
+                    
+                    dt1.addRow(row);
+                        
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_searchbycompanyActionPerformed
+
+    private void employmentchartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_employmentchartActionPerformed
+        // TODO add your handling code here:
+        
+         Alumni newbie = null;
+
+        DefaultCategoryDataset dcd = new DefaultCategoryDataset();
+
+        ArrayList<String> feelingsList = new ArrayList<>();
+        feelingsList.add("Employed");
+        feelingsList.add("Unemployed");
+       ;
+
+        Organization org = null;
+        for (Organization organization : enterprise.getOrganizationDirectory().getOrganizationList()) {
+            if (organization instanceof AlumniOrganization) {
+                org = organization;
+            }
+        }
+        for(String feelings: feelingsList){
+            int feelingsCount=0;
+        for (Alumni n : org.getAl().getAlumniList()) {
+           if(n.getEmployed().equalsIgnoreCase(feelings)){
+               feelingsCount++;
+                dcd.addValue(feelingsCount, "Student", n.getEmployed());
+           }
+                
+            }
+        }
+
+       
+        JFreeChart chart = ChartFactory.createBarChart("Bar Chart", "Student", "Feeling", dcd);
+        CategoryPlot plot = chart.getCategoryPlot();
+
+        ChartFrame chrt = new ChartFrame("Trail", chart);
+        chrt.setVisible(true);
+        chrt.setSize(500, 400);
+
+
+    }//GEN-LAST:event_employmentchartActionPerformed
+
+    private void sendGradStudentBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendGradStudentBtnActionPerformed
+        // TODO add your handling code here:
+
+        int selectedRow = Aluminitable.getSelectedRow();
+        if (selectedRow < 0){
+            return;
+        }
+        //LabTestWorkRequest request = (LabTestWorkRequest)Aluminitable.getValueAt(selectedRow, 0);
+        Alumni al = (Alumni) Aluminitable.getValueAt(selectedRow, 0);
+        al.getFirstName();
+        al.getLastName();
+        al.getCompanyame();
+        al.getTechnologyUsed();
+        al.getEmployed();
+        al.getYearOfPassing();
+        org.getAl().createAlumini();
+        
+
+    }//GEN-LAST:event_sendGradStudentBtnActionPerformed
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable Aluminitable;
+    private javax.swing.JTextField companysearch;
+    private javax.swing.JButton employmentchart;
+    private javax.swing.JTable gradstudenttable1;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField search;
+    private javax.swing.JButton searchbycompany;
+    private javax.swing.JButton sendGradStudentBtn;
+    // End of variables declaration//GEN-END:variables
+}
